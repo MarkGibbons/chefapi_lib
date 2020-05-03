@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"net/http"
 	"net/http/httptest"
+	"reflect"
 	"testing"
+	"github.com/gorilla/mux"
 	"github.com/go-chef/chef"
 )
 
@@ -108,8 +110,5 @@ func newGetNodesServer() http.Handler {
         return r
 }
 
-func newSingleNodeServer() http.Handler {
-        r := mux.NewRouter()
-        r.HandleFunc("/organizations/{org}/nodes/{node}", singleNode)
-        return r
+func getNodes(w http.ResponseWriter, r *http.Request) {
 }
