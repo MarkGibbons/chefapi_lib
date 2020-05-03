@@ -44,16 +44,20 @@ func AllOrgs() (orgNames []string, err error) {
 }
 
 // StdMessageStatus extracts the status code from a go-chef api error message
-func ChefStatus(err error) (message string, statusCode int) {
-	if err != nil {
-		// unwind the error to get the chef response statuscode
-		if cerr, ok := err.(*chef.ErrorResponse); ok {
-			message = cerr.Error()
-			statusCode = cerr.StatusCode()
-			return
-		}
-		message = err.Error()
+func ChefStatus(in_err error) (message string, statusCode int) {
+
+	if in_err == nil {
+		return
 	}
+
+	cerr, _ := chef.ChefError(in_err)
+	if cerr != nil {
+		message = cerr.Error()
+		statusCode = cerr.StatusCode()
+		return
+	}
+
+	message = in_err.Error()
 	return
 }
 
